@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+function startApp {
+  [ -x "$(command -v $1)" ] && $@
+}
+
+# Set Background Image
+startApp feh --bg-fill ~/Pictures/wallpapers/1440p/soyuz.png
+
+# Tray bar
+# For multi-screen support, we're using the trayer-srg (AUR) here.
+# TODO: Always spawn on rightmost screen (personal preference)
+screen="1"
+trayer --edge top --align right --widthtype pixel --width 100 --heighttype pixel --height 19 --monitor $screen --tint 0x2d2d2d --transparent true --alpha 1 &
+sleep 0.5
+
+# Keyring
+startApp gnome-keyring-daemon --start
+
+# Keyboard daemon
+startApp ckb &
+
+# Application launcher
+startApp albert &
+
+# Autostart messengers
+startApp telegram-desktop &
+startApp discord &
